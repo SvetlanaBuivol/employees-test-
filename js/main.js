@@ -1,87 +1,36 @@
-const employees = [
-  {
-    name: "John",
-    position: "Developer",
-    salary: 0,
-    department: "IT",
-    experience: 2,
-  },
-  {
-    name: "Alice",
-    position: "Designer",
-    salary: 0,
-    department: "Design",
-    experience: 3,
-  },
-  {
-    name: "Bob",
-    position: "Manager",
-    salary: 0,
-    department: "Management",
-    experience: 5,
-  },
-  {
-    name: "Eva",
-    position: "Developer",
-    salary: 0,
-    department: "IT",
-    experience: 1,
-  },
-  {
-    name: "Charlie",
-    position: "Designer",
-    salary: 0,
-    department: "Design",
-    experience: 4,
-  },
-  {
-    name: "David",
-    position: "Manager",
-    salary: 0,
-    department: "Management",
-    experience: 6,
-  },
-  {
-    name: "Grace",
-    position: "Developer",
-    salary: 0,
-    department: "IT",
-    experience: 2,
-  },
-  {
-    name: "Henry",
-    position: "Designer",
-    salary: 0,
-    department: "Design",
-    experience: 3,
-  },
-  {
-    name: "Isabel",
-    position: "Manager",
-    salary: 0,
-    department: "Management",
-    experience: 7,
-  },
-  {
-    name: "Jack",
-    position: "Developer",
-    salary: 0,
-    department: "IT",
-    experience: 1,
-  },
+const employeeNames = [
+  "John",
+  "Alice",
+  "Bob",
+  "Eva",
+  "Charlie",
+  "David",
+  "Grace",
+  "Henry",
+  "Isabel",
+  "Jack",
 ];
+const positions = ["Developer", "Designer", "Manager"];
+const departments = ["IT", "Design", "Management"];
+
+const generateRandomValue = (value) => Math.floor(Math.random() * value);
+
+const generateEmployees = (numberOfEmployees) => {
+  return Array.from({ length: numberOfEmployees }, (_) => ({
+    name: employeeNames[generateRandomValue(employeeNames.length)],
+    position: positions[generateRandomValue(positions.length)],
+    salary: generateRandomValue(15000 - 2000 + 1 + 2000),
+    department: departments[generateRandomValue(departments.length)],
+    experience: generateRandomValue(10 + 1),
+  }));
+};
+
+const employees = generateEmployees(20);
+console.log("employees", employees);
 
 const tableBodyEl = document.querySelector(".tableBody");
 const totalEl = document.querySelector(".total");
 const highestPaidEl = document.querySelector(".highestPaid");
-
-const generateSalary = () => {
-  return Math.floor(Math.random() * (15000 - 2000 + 1)) + 2000;
-};
-
-employees.forEach((employee) => {
-  employee.salary = generateSalary();
-});
 
 const createEmployeesTableMarkup = (employee) => {
   return `
@@ -95,11 +44,7 @@ const createEmployeesTableMarkup = (employee) => {
     `;
 };
 
-const totalSalary = (employees) => {
-  return employees.reduce((total, employee) => total + employee.salary, 0);
-};
-
-const total = totalSalary(employees);
+const total = employees.reduce((total, employee) => total + employee.salary, 0);
 
 const filteredEmployees = employees.map(({ name, salary, position }) => ({
   name,
@@ -109,7 +54,6 @@ const filteredEmployees = employees.map(({ name, salary, position }) => ({
 
 const highestPaidEmployee = filteredEmployees.reduce(
   (highestPaid, currentEmployee) => {
-    console.log("highestPaidEmployee  highestPaid", highestPaid);
     return currentEmployee.salary > highestPaid.salary
       ? currentEmployee
       : highestPaid;
